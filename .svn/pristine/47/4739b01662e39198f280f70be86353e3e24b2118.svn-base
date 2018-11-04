@@ -1,0 +1,193 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+//using ClassLibrary.BusinessLayer.Entities;
+using UDIRS.Entities;
+using System.Configuration;
+using DBFun;
+
+namespace UDIRS.Classes
+{
+	public class AdoUDIRS
+	{
+		private static bool _blnError = false;
+		private static string _strError = "";
+		private static string _isDuplicate = "";
+		private static string _paramTooBig = "";
+
+
+		//private static string _connString = System.Configuration.ConfigurationManager.ConnectionStrings["UDIAMS"].ConnectionString;
+		private static string _connString = System.Configuration.ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
+
+		public static bool BlnError
+		{
+			get
+			{
+				if (_blnError == true)
+				{
+					_blnError = false;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			set
+			{
+				//blnError = value;
+				//_blnError = value;
+			}
+		}
+
+		public static string StrError
+		{
+			get
+			{
+				if (_strError != "")
+				{
+					string str = _strError;
+					_strError = "";
+					return str;
+				}
+				else
+				{
+					return "";
+				}
+
+			}
+			set { }
+		}
+		//private static Person PersonUser
+		//{
+		//    get
+		//    {
+		//        //return ((Masters.SiteMaster)master).PersonUser;
+		//        return (Person)HttpContext.Current.Session["Person"];
+		//    }
+		//    set { }
+		//}
+
+
+		public static string IsDuplicateProperty
+		{
+			get
+			{
+				return _isDuplicate;
+			}
+			set
+			{
+				//_isDuplicate = value;
+			}
+		}
+
+		public static string ParamTooBig
+		{
+			get
+			{
+				return _paramTooBig;
+			}
+			set
+			{
+				//_isDuplicate = value;
+			}
+		}
+
+		//_________________________________________________________________________________
+
+
+
+		public static DataView DoLogin(string username, string pwd)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			dbFun.ExecSelectProc("DoLogin", username + "#~~#" + pwd);
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+
+
+
+		public static DataView Regist(string UserName, string Password, string FirstName, string LastName, string NationIqama, string Mobile, string Email, string Gender, string recUser)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			// @username, @pwd , @firstname, @lastname, @nationIqama, @mobile , @personalEmail , @gender , @ERROR OUT)
+
+			dbFun.ExecSelectProc("UserRegistration", UserName + "#~~#" + Password + "#~~#" + FirstName + "#~~#" + LastName + "#~~#" + NationIqama + "#~~#" +
+								Mobile + "#~~#" + Email + "#~~#" + Gender + "#~~#" + "");
+
+			//dbFun.ExecActionProc("UserRegistration", Youare + "#~~#" + UserName + "#~~#" + Password + "#~~#" + FirstName + "#~~#" + LastName + "#~~#" + NationIqama + "#~~#" +
+			//                    Mobile + "#~~#" + Email + "#~~#" + Gender + "#~~#" + "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		public static DataSet AddUpdateUserDetailsByNationalID(string nationalID, string fullName, string email, string phone, string mobile)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			// @username, @pwd , @firstname, @lastname, @nationIqama, @mobile , @personalEmail , @gender , @ERROR OUT)
+
+			dbFun.ExecSelectProc("AddUpdateUserDetailsByNationalID", nationalID + "#~~#" + fullName + "#~~#" + email + "#~~#" + phone + "#~~#" + mobile);
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DSet;
+		}
+		public static DataSet CheckAndGetDataForOthersLogin(string userName)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			// @username, @pwd , @firstname, @lastname, @nationIqama, @mobile , @personalEmail , @gender , @ERROR OUT)
+
+			dbFun.ExecSelectProc("CheckAndGetDataForOthersLogin", userName);
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DSet;
+		}
+
+		//_________________________________________________________________________________
+
+
+	}
+	public static class UDIRSHelper
+	{
+		public static Person PersonDetails
+		{
+			get
+			{
+				return (HttpContext.Current.Session["PersonDetails"] == null) ? null : (Person)HttpContext.Current.Session["PersonDetails"];
+			}
+			set { HttpContext.Current.Session["PersonDetails"] = value; }
+		}
+		public static IList<PersonRoles> PersonRoleDetails
+		{
+			get
+			{
+				return (HttpContext.Current.Session["PersonRoleDetails"] == null) ? null : (IList<PersonRoles>)HttpContext.Current.Session["PersonRoleDetails"];
+			}
+			set { HttpContext.Current.Session["PersonRoleDetails"] = value; }
+		}
+
+	}
+}

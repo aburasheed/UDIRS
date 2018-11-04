@@ -1,0 +1,289 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+//using ClassLibrary.BusinessLayer.Entities;
+using System.Configuration;
+using DBFun;
+using UDIRS.Entities;
+
+namespace UDIRS.Classes
+{
+	public class AdoUDIRS
+	{
+		#region Fields
+		private static bool _blnError = false;
+		private static string _strError = "";
+		private static string _isDuplicate = "";
+		private static string _paramTooBig = "";
+		//private static string _connString = System.Configuration.ConfigurationManager.ConnectionStrings["UDIAMS"].ConnectionString;
+		private static string _connString = System.Configuration.ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
+		#endregion
+		#region Properties
+		public static bool BlnError
+		{
+			get
+			{
+				if (_blnError == true)
+				{
+					_blnError = false;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			set
+			{
+				//blnError = value;
+				//_blnError = value;
+			}
+		}
+		public static string StrError
+		{
+			get
+			{
+				if (_strError != "")
+				{
+					string str = _strError;
+					_strError = "";
+					return str;
+				}
+				else
+				{
+					return "";
+				}
+
+			}
+			set { }
+		}
+		public static string IsDuplicateProperty
+		{
+			get
+			{
+				return _isDuplicate;
+			}
+			set
+			{
+				//_isDuplicate = value;
+			}
+		}
+		public static string ParamTooBig
+		{
+			get
+			{
+				return _paramTooBig;
+			}
+			set
+			{
+				//_isDuplicate = value;
+			}
+		}
+		#endregion
+		//_________________________________________________________________________________
+		public static DataView DoLogin(string username, string pwd)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			dbFun.ExecSelectProc("DoLogin", username + "#~~#" + pwd);
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		public static DataView Registration(string UserName, string Password, string FirstName, string LastName, string Mobile, string Gender)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("UserRegistration", UserName + "#~~#" + Password + "#~~#" + FirstName + "#~~#" + LastName + "#~~#" + Mobile + "#~~#" + Gender);
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		#region Login
+		public static DataSet AddUpdateUserDetailsByNationalID(string nationalID, string fullName, string email, string phone, string mobile)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			// @username, @pwd , @firstname, @lastname, @nationIqama, @mobile , @personalEmail , @gender , @ERROR OUT)
+
+			dbFun.ExecSelectProc("AddUpdateUserDetailsByNationalID", nationalID + "#~~#" + fullName + "#~~#" + email + "#~~#" + phone + "#~~#" + mobile);
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DSet;
+		}
+		public static DataSet CheckAndGetDataForOthersLogin(string userName)
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+			// @username, @pwd , @firstname, @lastname, @nationIqama, @mobile , @personalEmail , @gender , @ERROR OUT)
+
+			dbFun.ExecSelectProc("CheckAndGetDataForOthersLogin", userName);
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DSet;
+		}
+		#endregion
+		public static DataView IncidentData(string UnitID, string TreatmentLocationID, string IncidentDateTime, string IncidentDesc, string IsAnyPersonInjured, string InjuryDesc, string IsTreatmentProvided, string ActionDesc, string AdditionalInfo, string IncidentSubCategoryID, string CorrectiveActionID)
+		{                                        // @UnitID,        @TreatmentLocationID,      @OtherLocation,		@IncidentDesc,		@IsAnyPersonInjured,		@InjuryDesc,	   @IsTreatmentProvided,	   @ActionDesc,		  @AdditionalInfo,		 @IncidentSubCategoryID,      @CorrectiveActionID
+
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("IncidentFormData", UnitID + "#~~#" + TreatmentLocationID + "#~~#" + IncidentDateTime + "#~~#" + IncidentDesc + "#~~#" + IsAnyPersonInjured + "#~~#" + InjuryDesc + "#~~#" +
+													IsTreatmentProvided + "#~~#" + ActionDesc + "#~~#" + AdditionalInfo + "#~~#" + IncidentSubCategoryID + "#~~#" + CorrectiveActionID);
+
+			//dbFun.ExecSelectProc("IncidentFormData", UnitID + "#~~#" + OtherLocation + "#~~#" + IncidentDesc + "#~~#" + IsAnyPersonInjured + "#~~#" + InjuryDesc + "#~~#" +
+			//                           IsTreatmentProvided + "#~~#" + ActionDesc + "#~~#");
+
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		// ----------------------------------------------- Nature of Incident ---------------------------------------------------------------------
+		public static DataView GetTreatmentLocation()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetTreatmentLocation", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		public static DataView GetHealthSafety()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetHealthSafety", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		//_________________________________________________________________________________
+		public static DataView GetInformationSystem()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetInformationSystem", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		//_________________________________________________________________________________
+		public static DataView GetAcademicIntegrity()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetAcademicIntegrity", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		//_________________________________________________________________________________
+		public static DataView GetRegulationsEthics()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetRegulationsEthics", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		public static DataView GetCorrectiveAction()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetCorrectiveAction", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+		public static DataView GetIncidentLocation()
+		{
+			DBFun.dbFunctions dbFun = new DBFun.dbFunctions(_connString);
+
+			dbFun.ExecSelectProc("GetLocation", "");
+
+			if (dbFun.blnError)
+			{
+				_blnError = dbFun.blnError;
+				_strError = dbFun.strError;
+				return null;
+			}
+			return dbFun.DV;
+		}
+	}
+	public static class UDIRSHelper
+	{
+		public static Person PersonDetails
+		{
+			get
+			{
+				return (HttpContext.Current.Session["PersonDetails"] == null) ? null : (Person)HttpContext.Current.Session["PersonDetails"];
+			}
+			set { HttpContext.Current.Session["PersonDetails"] = value; }
+		}
+		public static IList<PersonRoles> PersonRoleDetails
+		{
+			get
+			{
+				return (HttpContext.Current.Session["PersonRoleDetails"] == null) ? null : (IList<PersonRoles>)HttpContext.Current.Session["PersonRoleDetails"];
+			}
+			set { HttpContext.Current.Session["PersonRoleDetails"] = value; }
+		}
+
+	}
+}

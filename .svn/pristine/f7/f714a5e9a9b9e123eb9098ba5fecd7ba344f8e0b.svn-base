@@ -1,0 +1,389 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+//using ClassLibrary.BusinessLayer.Entities;
+using System.Configuration;
+using UDIRS.Classes;
+using System.Web.UI.WebControls;
+using System.Text;
+using IAUHelper.Classes;
+
+namespace UDIRS.Web
+{
+    public partial class Form : System.Web.UI.Page
+    {
+        #region Fields
+        DataView oDV = new DataView();
+        StringBuilder sbIncidentSubCategoryIDs = new StringBuilder();
+        string incdId = string.Empty;
+        string strCorActionIDs = string.Empty;
+        #endregion
+        #region Events
+        private void Page_Init(object sender, EventArgs e)
+        {
+            btnSave.Click += new EventHandler(btnSave_Click);
+
+        }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                PopulateHealthSafety();
+                PopulateInformationSystem();
+                PopulateAcademicIntegrity();
+                PopulateRegulationsEthics();
+                PopulateCorrectiveAction();
+                PopulateLocation();
+                PopulateTreatmentLocation();
+                BindHours();
+                BindMinutes();
+                LoadSession();
+            }
+
+
+        }
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            //  oDV = AdoUDIRS.IncidentData(txtIncidentDesc.Text.Trim());
+            //oDV = AdoUDIRS.IncidentData();
+            InsertIncident();
+            Utility.ClearControls(this);
+            Label lbl = (Label)Page.Master.FindControl("lblMessage");
+            Message.Success("Successfully saved", lbl); ///// Pass label saleem
+            //InsertNatureIncident();
+
+            //InsertCorrectiveAction();
+
+            if (AdoUDIRS.BlnError)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+
+            }
+
+        }
+        protected void cbOthers_CheckedChanged(object sender, EventArgs e)
+        {
+            //txtOthers.Style["display"] = "block";
+
+            if (((CheckBox)sender).Checked)
+            {
+                //txtOthers.Style["display"] = "block";
+            }
+            else
+            {
+                //txtOthers.Style["display"] = "none";
+            }
+
+        }
+        #endregion
+        #region Methods
+        public void BindHours()
+        {
+            for (int i = 0; i < 24; i++)
+                if (i < 10)
+                    ddlHours.Items.Add(new ListItem('0' + i.ToString(), '0' + i.ToString()));
+                else
+                    ddlHours.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        public void BindMinutes()
+        {
+            for (int i = 0; i < 60; i++)
+                if (i < 10)
+                    ddlMinutes.Items.Add(new ListItem('0' + i.ToString(), '0' + i.ToString()));
+                else
+                    ddlMinutes.Items.Add(new ListItem(i.ToString(), i.ToString()));
+        }
+        protected void InsertIncident()
+        {
+
+            try
+            {
+                BuildNatureIncident();
+                BuildCorrectiveAction();
+
+                String combinedDateTime;
+                //string selectedval = HiddenField1.Value;
+                combinedDateTime = txtDate.Text + " " + ddlHours.Text + ":" + ddlMinutes.Text;
+
+
+                oDV = AdoUDIRS.IncidentData(ddlLocation.SelectedValue, rblTreatmentPlace.SelectedValue, combinedDateTime, txtIncidentDesc.Text.Trim(), rblInjured.SelectedValue, txtInjuryDesc.Text.Trim(), rblTreatmentProvided.SelectedValue, txtCorrectiveActionDesc.Text.Trim(), txtAdditionalInformationDesc.Text.Trim(), sbIncidentSubCategoryIDs.ToString(), strCorActionIDs);
+                if (AdoUDIRS.BlnError)
+                {
+
+                }
+                else if (oDV.Count == 0)
+                {
+
+                }
+                else if (oDV.Count > 0)
+                {
+                    //incdId = oDV.ToTable().Rows[0]["IncidentID"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        private void BuildNatureIncident()
+        {
+            BuildIDsString(chkHealthSafety);
+            BuildIDsString(chkInformationSystem);
+            BuildIDsString(chkAcademicIntegrity);
+            BuildIDsString(chkRegulationsEthics);
+        }
+        private void BuildIDsString(CheckBoxList chkList)
+        {
+            for (int i = 0; i <= chkList.Items.Count - 1; i++)
+            {
+                if (chkList.Items[i].Selected)
+                {
+                    sbIncidentSubCategoryIDs.Append(chkList.Items[i].Value.ToString() + "_");
+
+                }
+
+            }
+        }
+        private void BuildCorrectiveAction()
+        {
+
+            for (int i = 0; i <= chkCorrectiveAction.Items.Count - 1; i++)
+            {
+                if (chkCorrectiveAction.Items[i].Selected)
+                {
+                    strCorActionIDs += chkCorrectiveAction.Items[i].Value + "_"; //+= "_" + chkHealthSafety.Items[i].Text;
+
+                }
+
+            }
+            //AdoUDIRS.CorrectiveAction(incdId, str.ToString(), "");
+        }
+        protected void PopulateTreatmentLocation()
+        {
+            try
+            {
+                oDV = AdoUDIRS.GetTreatmentLocation();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    rblTreatmentPlace.DataSource = oDV;
+                    rblTreatmentPlace.DataValueField = "Id";
+                    rblTreatmentPlace.DataTextField = "Title";
+                    rblTreatmentPlace.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+
+        }
+        protected void PopulateHealthSafety()
+        {
+
+            try
+            {
+                oDV = AdoUDIRS.GetHealthSafety();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    chkHealthSafety.DataSource = oDV;
+                    chkHealthSafety.DataValueField = "Id";
+                    chkHealthSafety.DataTextField = "Title";
+                    chkHealthSafety.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void PopulateInformationSystem()
+        {
+
+            try
+            {
+                oDV = AdoUDIRS.GetInformationSystem();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    chkInformationSystem.DataSource = oDV;
+                    chkInformationSystem.DataValueField = "Id";
+                    chkInformationSystem.DataTextField = "Title";
+                    chkInformationSystem.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void PopulateAcademicIntegrity()
+        {
+
+            try
+            {
+                oDV = AdoUDIRS.GetAcademicIntegrity();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    chkAcademicIntegrity.DataSource = oDV;
+                    chkAcademicIntegrity.DataValueField = "Id";
+                    chkAcademicIntegrity.DataTextField = "Title";
+                    chkAcademicIntegrity.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void PopulateRegulationsEthics()
+        {
+
+            try
+            {
+                oDV = AdoUDIRS.GetRegulationsEthics();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    chkRegulationsEthics.DataSource = oDV;
+                    chkRegulationsEthics.DataValueField = "Id";
+                    chkRegulationsEthics.DataTextField = "Title";
+                    chkRegulationsEthics.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void PopulateCorrectiveAction()
+        {
+
+            try
+            {
+                oDV = AdoUDIRS.GetCorrectiveAction();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    chkCorrectiveAction.DataSource = oDV;
+                    chkCorrectiveAction.DataValueField = "Id";
+                    chkCorrectiveAction.DataTextField = "Title";
+                    chkCorrectiveAction.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void PopulateLocation()
+        {
+            try
+            {
+                oDV = AdoUDIRS.GetIncidentLocation();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    ddlLocation.DataSource = oDV;
+                    ddlLocation.DataValueField = "Id";
+                    ddlLocation.DataTextField = "Longname";
+                    ddlLocation.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+        }
+        protected void LoadSession()
+        {
+            string PersonId = Session["Id"].ToString();
+            string fullName = Session["Fullname"].ToString();
+            string email = Session["Email"].ToString();
+            string mobile = Session["Mobile"].ToString();
+
+            hdnPersonId.Value = PersonId;
+            lblName.Text = fullName;
+            lblContact.Text = mobile;
+            lblEmail.Text = email;
+
+        }
+        #endregion
+    }
+}

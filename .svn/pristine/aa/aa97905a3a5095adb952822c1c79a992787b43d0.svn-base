@@ -1,0 +1,40 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Other.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="UDIRS.Web.Login" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<link href="../Styles/BSite.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/BSite.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <%--  Login --%>
+    <div title="Login">
+        <fieldset title="Login" class="fieldset-login" style="width: 320px; height: 270px">
+            <legend>Login</legend>
+            <div>
+                <br />
+                <asp:Label ID="Name" runat="server" Text="UserName:" />
+                <asp:TextBox ID="txtUserName" runat="server" Height="22px" />
+                <asp:RequiredFieldValidator ID="RV1" runat="server" ControlToValidate="txtUserName"
+                    ErrorMessage="Please Enter User Name" SetFocusOnError="True">*
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <br />
+            <div>
+                <asp:Label ID="lblPwd" runat="server" Text="Password:" />
+                <asp:TextBox ID="txtPwd" runat="server" TextMode="Password" Height="22px" />
+                <asp:RequiredFieldValidator ID="RV2" runat="server" ControlToValidate="txtPwd" ErrorMessage="Your Password"
+                    SetFocusOnError="True">*
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <br />
+            <div>
+                <asp:Button ID="btnLogIn" runat="server" Text="Sign In" />
+            </div>
+            <div>
+                <asp:HyperLink ID="hplForgot_PWD" runat="server" NavigateUrl="https://eservices.uod.edu.sa/reset-password/resetpassword.aspx">Forgot Password ?</asp:HyperLink>
+                <br />
+            </div>
+            <br />
+            <br />
+            <asp:Label ID="lblMsg" runat="server" Text="" />
+        </fieldset>
+    </div>
+</asp:Content>

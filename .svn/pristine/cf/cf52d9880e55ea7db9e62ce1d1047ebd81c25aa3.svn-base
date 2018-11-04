@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+using ClassLibrary.BusinessLayer.Entities;
+using System.Configuration;
+using UDIRS.Classes;
+
+namespace UDIRS.Web
+{
+    public partial class OtherLogin : System.Web.UI.Page
+    {
+        DataView oDV = new DataView();
+
+        private void Page_Init(object sender, EventArgs e)
+        {
+            btnSubmit.Click += (btnSubmit_Click);
+            btnLogIn.Click += (btnLogIn_Click);
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            //DataView oDV = new DataView();
+            oDV = AdoUDIRS.Regist(txtEmailID.Text.Trim(), txtRpwd.Text.Trim(), txtFirstname.Text.Trim(), txtLastname.Text.Trim(), txtIqama.Text.Trim(),
+                                 txtContact.Text.Trim(), txtEmailID.Text.Trim(), rdoGender.SelectedItem.Text, "");
+
+            //oDV = AdoUDIRS.Regist("Visitor", "saleem.mas@gmail.com", "j789rt", "Saleem", "Abdul", "23326666",
+            //                      "05341039", "saleem.mas@gmail.com", "Male", "");
+
+
+            if (AdoUDIRS.BlnError)
+            {
+                lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+
+            }
+
+            lblRMsg.Text = oDV[0]["StatusMsg"].ToString();
+        }
+
+        private void CreateAttributes()
+        {
+
+            btnSubmit.Attributes.Add("onclick", "javascript:return validateForm();");
+
+        }
+
+        protected void btnLogIn_Click(object sender, EventArgs e)
+        {
+            CheckLogin();
+        }
+
+        protected void CheckLogin()
+        {
+            string pId = "";
+            lblMsg.Style.Add("color", "#ee0000");
+            lblMsg.Style.Add("font-size", "120%");
+            lblMsg.Visible = true;
+
+            if (txtUserName.Text.Trim().Length == 0 || txtPwd.Text.Trim().Length == 0)
+            {
+                lblMsg.Text = "Sorry, Username or password cannot be Blank";
+                return;
+            }
+
+            oDV = AdoUDIRS.DoLogin(txtUserName.Text.Trim(), txtPwd.Text.Trim());
+            lblMsg.Text = "";
+
+            if (AdoUDIRS.BlnError)
+            {
+                lblMsg.Text = "Error 67, sorry, an error occured, " + AdoUDIRS.StrError;
+                return;
+            }
+            else if (oDV.Count == 0)
+            {
+                lblMsg.Text = "Sorry, *username* is not recognized as a username or email address";
+                return;
+            }
+            else if (oDV.Count > 0)
+            {
+                pId = oDV[0]["Id"].ToString();
+                Session["Id"] = pId;
+                Session["Username"] = txtUserName.Text;
+                Session["Fullname"] = oDV[0]["FullName"].ToString();
+                Session["Gender"] = oDV[0]["Gender"].ToString();
+                Session["Iqama"] = oDV[0]["NationIqama"].ToString();
+                Session["Email"] = oDV[0]["PersonalEmail"].ToString();
+                Session["Mobile"] = oDV[0]["Mobile"].ToString();
+                Session["Your"] = oDV[0]["Youare"].ToString();
+                Server.Transfer("~/Web/form.aspx"); ;
+
+            }
+        }
+
+    }
+}

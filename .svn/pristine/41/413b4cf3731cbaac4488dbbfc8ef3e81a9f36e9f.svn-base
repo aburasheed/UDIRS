@@ -1,0 +1,232 @@
+﻿.btn
+{
+    background: #1f3a59;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    float: left;
+    margin-top: 180px;
+    margin-left: 145px;
+}
+
+.btn-other
+{
+    background: #1f3a59;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    float: right;
+    margin-top: 180px;
+    margin-right: 220px;
+}
+.btn:hover
+{
+    background: #12294f;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #97792e;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-other:hover
+{
+    background: #12294f;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #97792e;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+span.img-dollar:before {
+    content: url(~/Master/Images/Home.png);
+}
+
+.txt-lbl
+{
+    color:Black;
+    border-style: none;
+    background-color:transparent;
+    font-size: 16px;
+   disabled="disabled";
+}
+
+.lbl-txt
+{
+    color:Black;
+    border-style:groove;
+    background-color: AliceBlue;
+    font-size: 14px; 
+}
+
+.content-main
+{
+    background-image: url("../Master/Images/IAU3.png");
+    height: 490px;
+    background-color: #ffffff;
+}
+
+.content-Othermain
+{
+    background-image: url("../Master/Images/main_IAU5.png");
+     height: 690px;
+    background-color: #ffffff;
+}
+
+.fieldset-login
+{
+    display: block;
+    float: right;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: #97792e;
+    border-radius: 28px;
+    border-image: initial;
+    margin-right: 50px;
+    font-family: "Courier New" ,Courier;
+    font-weight: bold;
+}
+
+.fieldset-registration
+{
+    display: block;
+    float: Left;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: #97792e;
+    border-radius: 28px;
+    border-image: initial;
+    margin-left: 40px;
+    font-family: "Courier New" ,Courier;
+    font-weight: bold;
+}
+legend
+{
+    text-align: Left;
+    padding: 10px 10px 6px 10px;
+    font-weight: bold;
+    font-family: "Courier New" ,Courier;
+}
+.registration-cntrls
+{
+    width: 328px;
+    float: left;
+    text-align: left;
+    margin-top:26px;
+}
+.registration-cntrls span
+{
+    text-align: left;
+}
+.registration-cntrls input, .registration-cntrls select, .registration-cntrls table
+{
+    float:right;
+}
+
+div.container{
+    width: 100%;
+    background-color: #F8F8F8;
+    border: 1px solid #DEC4DF;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    
+}
+
+.header
+{
+    /*z-index: 2;*/ 
+    position: relative;
+    margin-top: 10px;
+    background-color: #C9C9C9; 
+    text-align:left; 
+    width: 1348px; 
+    height:30px; 
+    color: #3070AB; 
+    font-size: 25px; 
+    border: #9B7C2F 1px dashed;  
+}
+
+.control-Leftcontainer
+{
+    width: 660px;
+    height: 250px;
+    /*background: red;*/
+    float: Left;
+    /*margin-top: 10px;*/
+    /*margin-left: 0px;*/
+    text-align:left;
+    padding: 15px 0px 0px 15px;
+}
+
+.control-Rightcontainer
+{
+    width: 660px;
+    height: 250px;
+    /*background: Green;*/
+    float: Right;
+    /*margin-top: 10px;*/
+    /*margin-left: 0px;*/
+    text-align:left;
+    padding: 15px 0px 0px 15px;
+}
+
+.control-Btncontainer
+{
+   
+    margin-right: 40px;
+    margin-top: 90px;
+    float:right;
+    padding: 8px 30px 5px 30px;
+    font-size: 18px;
+    color: #12294f;
+    font-family: Georgia;
+    background-color: #C9C9C9;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #3070ab;
+    cursor: pointer;
+}
+.control-Btncontainer:hover {
+    background: #12294f;
+    border: 1px solid #57d6c7;
+    font-family: Georgia;
+    color: #97792e;
+    text-decoration: none;
+    cursor: pointer;
+}
+    
+nav {
+    float: left;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}

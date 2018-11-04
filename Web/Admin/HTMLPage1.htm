@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>Incident Reporting System </title>
+    <link href="/UDIRS/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+</head>
+<body>
+    <form method="post" action="./InvestigationForm.aspx?IID=iqdT6mfVNJs%3d" onsubmit="javascript:return WebForm_OnSubmit();"
+    id="form1">
+    <div id="IID" title="IncidentInvestigation" class="container">
+        <div title="dvCommentsHistory" style="margin-top: 50px; margin-bottom: 5px; text-align: left;
+            margin-left: 18px;">
+            <div>
+                <table class="RMO-status-history" cellspacing="0" rules="all" border="1" id="MainContent_gvCommentsHistory"
+                    style="border-collapse: collapse;">
+                    <tr>
+                        <th scope="col">
+                            N A M E
+                        </th>
+                        <th scope="col">
+                            Date
+                        </th>
+                        <th scope="col">
+                            Comments
+                        </th>
+                        <th scope="col">
+                            Historystatus
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Abdul Saleem Mohammed
+                        </td>
+                        <td style="width: 200px;">
+                            8/7/2018 9:15:10 AM
+                        </td>
+                        <td>
+                            <div id="MainContent_gvCommentsHistory_dvComments_0" class="dvComments-grid">
+                                C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.targets(1605,5):
+                                warning MSB3245: Could not resolve this reference. Could not locate the assembly
+                                &quot;ClassLibrary&quot;. Check to make sure the assembly exists on disk.</div>
+                            <span class="spReadMore">read more</span>
+                        </td>
+                        <td style="color: Red;">
+                            Pending
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Abdul Saleem Mohammed
+                        </td>
+                        <td style="width: 200px;">
+                            8/7/2018 10:00:16 AM
+                        </td>
+                        <td>
+                            <div id="MainContent_gvCommentsHistory_dvComments_1" class="dvComments-grid">
+                                (maximum 500 characters)</div>
+                            <span class="spReadMore">read more</span>
+                        </td>
+                        <td>
+                            On-Progress
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Abdul Saleem Mohammed
+                        </td>
+                        <td style="width: 200px;">
+                            8/9/2018 9:14:10 AM
+                        </td>
+                        <td>
+                            <div id="MainContent_gvCommentsHistory_dvComments_13" class="dvComments-grid">
+                            </div>
+                            <span class="spReadMore">read more</span>
+                        </td>
+                        <td>
+                            On-Progress
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $( document ).ready( function() {
+            $( '.dvComments-grid' ).each( function() {
+
+                if ( $( this ).text().length > 90 ) {
+
+                    $( this ).next('.spReadMore').css( 'display', 'block' );
+                }
+                else {
+                    $( this ).next( '.spReadMore' ).css( 'display', 'none' );
+                }
+
+            } );
+
+        } );
+    </script>
+    </form>
+</body>
+</html>

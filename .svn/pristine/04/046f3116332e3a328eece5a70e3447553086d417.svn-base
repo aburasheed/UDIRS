@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+//using ClassLibrary.BusinessLayer.Entities;
+using System.Configuration;
+using UDIRS.Classes;
+using System.Web.UI.WebControls;
+using System.Text;
+using IAUHelper.Classes;
+
+namespace UDIRS.Web
+{
+    public partial class IncidentReported : System.Web.UI.Page
+    {
+
+        string RefId, sLocation;
+        DataSet oDS = new DataSet();
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            RefId = Request.QueryString["RID"].ToString();
+            lblReference.Text = RefId;
+            Bindvalues();
+           
+        }
+        private void Bindvalues()
+        {
+
+            try
+            {
+                oDS = AdoUDIRS.GetAllInformation(RefId);
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDS.Tables.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDS.Tables.Count > 0)
+                {
+                    string mystring = string.Empty;
+                    foreach (DataRow dr in oDS.Tables[0].Rows)
+                        if (dr["NatureOfIncident"] != null)
+                            mystring += dr["NatureOfIncident"] + ", ".ToString();
+                    if (mystring.IndexOf(',') > 0)
+                        mystring = mystring.Substring(0, mystring.Length - 2);
+                    lblNature.Text = mystring;
+
+                    string myAction = string.Empty;
+                    foreach (DataRow dr in oDS.Tables[1].Rows)
+                        if (dr["Suggestion"] != null)
+                            myAction += dr["Suggestion"] + ", ".ToString();
+                    if (myAction.IndexOf(',') > 0)
+                        myAction = myAction.Substring(0, myAction.Length - 2);
+                    lblSuggestion.Text = myAction;
+
+                    lblDateTime.Text = oDS.Tables[2].Rows[0]["IncidentDate"].ToString();
+                    lblIncidentDesc.Text = oDS.Tables[2].Rows[0]["IncidentDescription"].ToString();
+                    lblInjuryDesc.Text = oDS.Tables[2].Rows[0]["InjuryDescription"].ToString();
+                    lblTypeTeatment.Text = oDS.Tables[2].Rows[0]["TreatmentLocation"].ToString();
+                    lblAction.Text = oDS.Tables[2].Rows[0]["ActionDescription"].ToString();
+                    lblAddtional.Text = oDS.Tables[2].Rows[0]["AdditionalInfo"].ToString();
+                    //lblPersonInjured.Text = oDS.Tables[2].Rows[0]["PersonInjured"].ToString();
+
+                    sLocation = oDS.Tables[2].Rows[0]["UnitName"].ToString();
+                    if (sLocation == "Other")
+                    {
+                        lblLocation.Text = oDS.Tables[2].Rows[0]["OtherLocation"].ToString();
+                    }
+                    else
+                    {
+                        lblLocation.Text = oDS.Tables[2].Rows[0]["UnitName"].ToString();
+                    }
+                    string sInjured = oDS.Tables[2].Rows[0]["PersonInjured"].ToString();
+                    if (sInjured == "Y")
+                    {
+                        lblPersonInjured.Text = "Yes";
+                    }
+                    else
+                    {
+                        lblPersonInjured.Text = "NO";
+                    }
+                    string sProvided = oDS.Tables[2].Rows[0]["TreatmentProvided"].ToString();
+                    if (sInjured == "Y")
+                    {
+                        lblTreatmentProvided.Text = "Yes";
+                    }
+                    else
+                    {
+                        lblTreatmentProvided.Text = "NO";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+
+        }
+    }
+}

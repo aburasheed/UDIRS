@@ -1,0 +1,231 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Form.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true"
+    CodeBehind="Form.aspx.cs" Inherits="UDIRS.Web.Form" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $( document ).ready( function() {
+            // Only two "Nature of Incident" can be selected
+            var CountIncidents = 0;
+            $( '.incident-count input[type = "checkbox"]' ).click( function() {
+                if ( $( this ).is( ':checked' ) )
+                    CountIncidents = CountIncidents + 1;
+                else
+                    CountIncidents = CountIncidents - 1;
+            } );
+            $( '.incident-count-btn' ).click( function() {
+                if ( CountIncidents == 0 )
+                { alert( 'Select atleast one "Nature of Incident"' ); return false; }
+                else if ( CountIncidents > 0 && CountIncidents <= 2 ) { return true; }
+                alert( 'Only two "Nature of Incident" can be selected' )
+                return false;
+            } );
+
+            //      were you or another person injured?
+            $( ".injury-desc" ).attr( "disabled", true );
+            $( '.rblInjured input' ).click( function() {
+                if ( $( this ).val() == "N" ) {
+                    $( ".injury-desc" ).attr( "disabled", true );
+                }
+                else {
+                    $( ".injury-desc" ).attr( "disabled", false );
+                }
+            } );
+
+            //      Was medical treatment provided
+            $( ".treatment-place input" ).attr( "disabled", true );
+            $( '.treatment-provided input' ).click( function() {
+                if ( $( this ).val() == "N" ) {
+                    $( ".treatment-place input" ).attr( "disabled", true );
+                }
+                else {
+                    $( ".treatment-place input" ).attr( "disabled", false );
+                }
+            } );
+            $( function() {
+                $( ".dateTxt" ).datepicker();
+            } );
+        } );
+    </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div id="PI" title="PersonalInfo" class="container">
+        <div title="PersonalInfo" class="header">
+            Personal Information
+        </div>
+        <div id="PIC-L" title="PIC-Left" class="control-Rightcontainercheckbox controls-container">
+            <asp:HiddenField ID="hdnPersonId" runat="server" />
+            <span>Name: </span>
+            <asp:Label ID="lblName" Style="float: left; margin-top: -24px; margin-left: 200px;
+                border-width: 1px; border-style: groove; border-color: #3e753f4f; height: 27px;
+                width: 250px;" runat="server"></asp:Label>
+            <span>Contact Number: </span>
+            <asp:Label ID="lblContact" Style="float: left; margin-top: -24px; margin-left: 200px;
+                border-width: 1px; border-style: groove; border-color: #3e753f4f; height: 27px;
+                width: 250px;" runat="server"></asp:Label>
+            <span>Email: </span>
+            <asp:Label ID="lblEmail" Style="float: left; margin-top: -24px; margin-left: 200px;
+                border-width: 1px; border-style: groove; border-color: #3e753f4f; height: 27px;
+                width: 250px;" runat="server"></asp:Label>
+            <%-- 
+              <asp:TextBox ID="txtName" Height="22px" Text="" CssClass="txt-lbl" runat="server" />
+              <asp:TextBox ID="txtEmail" Height="22px" Text="" CssClass="txt-lbl" runat="server" /> 
+              <asp:TextBox ID="txtContact" Height="22px" Text="" .lbl-txt runat="server" />
+              <span>Gender: </span>
+            <asp:Label ID="lblGender" runat="server" ></asp:Label> <%-- <asp:TextBox ID="txtGender" Height="22px" Text="" CssClass="txt-lbl" runat="server" /> 
+            <span>National / Iqama ID: </span>
+            <asp:Label ID="lblIqama" CssClass="lbl-txt" runat="server" ></asp:Label> <asp:TextBox ID="txtIqama" Height="22px" Text="" CssClass="txt-lbl" runat="server" /> 
+            --%>
+        </div>
+    </div>
+    <%--    ----------------------------------------------------------------  Incident Information   ---------------------------------------------------------------- --%>
+    <div id="II" title="IncidentInfo" class="container">
+        <div title="IncidentHeader" class="header">
+            Incident Information
+        </div>
+        <div id="IIC-L" title="IIC-Left" class="control-Rightcontainercheckbox">
+            <div class="label">
+                Date of the Incident:
+            </div>
+            <%--<asp:HiddenField ID="HiddenField1" runat="server" />--%>
+            <asp:TextBox ID="txtDate" Height="22px" CssClass="controls dateTxt" runat="server" />
+            <div class="label">
+                Hours&nbsp;/&nbsp;Minutes:
+            </div>
+            <asp:DropDownList ID="ddlHours" runat="server" CssClass="controls">
+            </asp:DropDownList>
+            <asp:DropDownList ID="ddlMinutes" runat="server" Style="float: left; margin-top: 10px;
+                margin-left: 8px; height: 24px;">
+            </asp:DropDownList>
+            <div class="label">
+                Incident Location:
+            </div>
+            <asp:DropDownList ID="ddlLocation" Width="260px" runat="server" CssClass="controls">
+            </asp:DropDownList>
+            <div style="float: left; margin-top: 8px;">
+                Describe the incident in details(exact location, what happened, factors leading
+                to the event, etc)be as specific as possible:</div>
+            <asp:TextBox ID="txtIncidentDesc" TextMode="MultiLine" Style="width: 1042px; height: 200px;
+                text-align: left; margin-top: 8px;" runat="server" />
+        </div>
+    </div>
+    <%--    ----------------------------------------------------------------  Injury   ---------------------------------------------------------------- --%>
+    <div id="IJ" title="Injury" class="container">
+        <div title="SeverityHeader" class="header">
+            Injury
+        </div>
+        <div id="IJ-L" title="IIC-Left" class="control-Rightcontainercheckbox">
+            <b>Were you or another person injured?</b>
+            <asp:RadioButtonList ID="rblInjured" RepeatColumns="2" runat="server" CssClass="rblInjured">
+                <asp:ListItem Text="Yes" Value="Y" />
+                <asp:ListItem Text="No" Value="N" Selected="True" />
+            </asp:RadioButtonList>
+            <div style="margin-top: 5px;">
+                If Yes, describe the injury(burn, laceration, etc)the part of body injuried and
+                any other information you can provide regarding the injury:</div>
+            <asp:TextBox ID="txtInjuryDesc" TextMode="MultiLine" Style="width: 1042px; height: 200px;
+                margin-top: 8px; text-align: left;" runat="server" CssClass="injury-desc" />
+            <br />
+            <b>Was medical treatment provided</b>
+            <asp:RadioButtonList ID="rblTreatmentProvided" RepeatColumns="2" runat="server" CssClass="treatment-provided">
+                <asp:ListItem Text="Yes" Value="Y" />
+                <%--Value="yes"--%>
+                <asp:ListItem Text="No" Value="N" Selected="True" />
+                <%--Value="no"--%>
+            </asp:RadioButtonList>
+            <div style="margin-top: 5px;">
+                If Yes, where was medical treatment provided?</div>
+            <asp:RadioButtonList ID="rblTreatmentPlace" RepeatColumns="3" runat="server" CssClass="treatment-place">
+                <%-- <asp:ListItem Text="On site, First Aid" Value=""  />           <%--Value="FirstAid"--%>
+                <%-- <asp:ListItem Text="Clinic/Healthcare Center" Value="" />      <%--Value="Clinic"--%>
+                <%-- <asp:ListItem Text="Hospital" Value="" />                      <%--Value="Hospital"--%>
+            </asp:RadioButtonList>
+        </div>
+    </div>
+    <%--    ----------------------------------------------------------------  Nature of Incident   ---------------------------------------------------------------- --%>
+    <div id="ID" title="IncidentDetails" class="container">
+        <div title="DetailsHeader" class="header">
+            Nature of Incident (Check Max '2' only)
+        </div>
+        <div id="ID-R" title="ID-Right">
+            <div id="NI" title="HealthSafety" class="SideHeader">
+                Health and Safety
+            </div>
+            <div id="dvHealthSafety" title="HealthSafety" class="control-Rightcontainercheckbox incident-count">
+                <asp:CheckBoxList ID="chkHealthSafety" RepeatColumns="4" RepeatDirection="vertical"
+                    CellPadding="5" CellSpacing="5" runat="server">
+                </asp:CheckBoxList>
+            </div>
+            <div id="IS" title="InformationSystem" class="SideHeader">
+                Information System
+            </div>
+            <div id="dvInformationSystem" title="InformationSystem" class="control-Rightcontainercheckbox incident-count">
+                <asp:CheckBoxList ID="chkInformationSystem" RepeatColumns="5" RepeatDirection="vertical"
+                    CellPadding="5" CellSpacing="5" runat="server">
+                </asp:CheckBoxList>
+            </div>
+            <div id="AI" title="AcademicIntegrity" class="SideHeader">
+                Academic Integrity
+            </div>
+            <div id="dvAcademicIntegrity" title="AcademicIntegrity" class="control-Rightcontainercheckbox incident-count">
+                <asp:CheckBoxList ID="chkAcademicIntegrity" RepeatColumns="2" RepeatDirection="vertical"
+                    CellPadding="5" CellSpacing="5" runat="server">
+                </asp:CheckBoxList>
+            </div>
+            <div id="RE" title="RegulationsEthics" class="SideHeader">
+                Regulations and Ethics
+            </div>
+            <div id="dvRegulationsEthics" title="RegulationsEthics" class="control-Rightcontainercheckbox incident-count">
+                <asp:CheckBoxList ID="chkRegulationsEthics" RepeatColumns="1" RepeatDirection="vertical"
+                    CellPadding="5" CellSpacing="5" runat="server">
+                </asp:CheckBoxList>
+            </div>
+            <%--<div id="OS" title="Others" class="SideHeaderOthers">
+                <p style="margin-top: 50px; color: #000000; font-family: monospace;">
+                    Others
+                </p>
+            </div>
+            <div id="dvOthers" title="Others" style="width: 1200px; color: #000000; text-align: left;
+                padding: 15px 0px 0px 15px; height: 120px; float: left;">
+                <asp:CheckBox ID="cbOthers" AutoPostBack="true" runat="server" OnCheckedChanged="cbOthers_CheckedChanged" /><b>Others</b>
+                <asp:TextBox ID="txtOthers" TextMode="MultiLine" Style="width: 650px; height: 80px;
+                    text-align: left; display: none" runat="server" />
+            </div>--%>
+        </div>
+    </div>
+    <%--    ----------------------------------------------------------------  Corrective Action   ---------------------------------------------------------------- --%>
+    <div id="CA" title="CorrectiveAction" class="container">
+        <div title="TypeHeader" class="header">
+            Corrective Action
+        </div>
+        <div id="CA-R" title="CA-Right" class="control-Rightcontainercheckbox">
+            <span>Suggested corrective action to be taken to prevent reoccurrence of the incident</span>
+            <asp:CheckBoxList ID="chkCorrectiveAction" RepeatColumns="3" RepeatDirection="vertical"
+                CellPadding="5" CellSpacing="5" runat="server">
+            </asp:CheckBoxList>
+            <asp:TextBox ID="txtCorrectiveActionDesc" TextMode="MultiLine" Style="width: 1042px;
+                height: 150px; text-align: left;" runat="server" />
+        </div>
+    </div>
+    <%--    ----------------------------------------------------------------  Additional Information   ---------------------------------------------------------------- --%>
+    <div id="AdI" title="AdditionalInformation" class="container">
+        <div title="TypeHeader" class="header">
+            Additional Information
+        </div>
+        <div id="AdI-R" title="AdI-Right" class="control-Rightcontainercheckbox">
+            <span>Include anything you think is relevant to the investigation<br />
+                (this might include possible cause of the incident, actions taken to prevent reoccurrence/make
+                safe?, recommendations, ect)</span>
+            <asp:TextBox ID="txtAdditionalInformationDesc" TextMode="MultiLine" Style="width: 1042px;
+                margin-top: 10px; height: 150px; text-align: left;" runat="server" />
+        </div>
+        <div id="AdI-R3" title="AdI-Right" style="width: 1200px; color: #000000; text-align: left;">
+            <asp:Button ID="btnSave" Text="Save" Style="vertical-align: middle" class="control-Btncontainer incident-count-btn"
+                runat="server" />
+        </div>
+    </div>
+    <br />
+</asp:Content>

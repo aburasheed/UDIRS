@@ -1,0 +1,73 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Form.Master" AutoEventWireup="true" CodeBehind="Form.aspx.cs" Inherits="UDIRS.Web.Form" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<link href="../Styles/BSite.css" rel="stylesheet" type="text/css" id="stylesheet" runat="server"/>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div id="PI" title="PersonalInfo" class="container">
+        <div title="PersonalInfo" class="header">
+            Personal Information
+        </div>
+        <div id="PIC-L" title="PIC-Left" class="control-Leftcontainer"><br />
+           <div><b>Name:  </b><asp:TextBox ID="txtName" Height="22px" CssClass="txt-lbl" runat="server" /><%--<asp:Label ID="lblName" style="display:inline;" runat="server" ></asp:Label>--%><br /><br /></div>
+            <b>Gender:  </b><asp:TextBox ID="txtGender" Height="22px" runat="server" /><%--<asp:Label ID="lblGender" runat="server" ></asp:Label>--%><br /><br />
+            <b>National / IQAMA ID:  </b><asp:TextBox ID="txtIqama" Height="22px" runat="server" /><%--<asp:Label ID="lblIqama" runat="server" ></asp:Label>--%><br /><br />
+            <b>Contact Number:  </b><asp:TextBox ID="txtContact" Height="22px" runat="server" /><%--<asp:Label ID="lblContact" runat="server" ></asp:Label>--%><br /><br />
+            <b>Email:  </b><asp:TextBox ID="txtEmail" Height="22px" runat="server" /><%--<asp:Label ID="lblEmail" runat="server" ></asp:Label>--%><br /><br />       
+        </div>
+        <div id="PIC-R" title="PIC-Right" class="control-Rightcontainer">
+            <br />
+            <b>Title / Occupation:  </b><asp:Label ID="lblTitle" runat="server" ></asp:Label><br /><br />
+            Department:  
+            <asp:DropDownList ID="ddlDept" runat="server">
+            </asp:DropDownList><br /><br />
+            <asp:Button ID="btnEditPI" text="Edit" style="vertical-align:middle" class="control-Btncontainer" runat="server"/>
+        </div>
+    </div>
+    <div id="II" title="IncidentInfo" class="container">
+        <div title="IncidentHeader" class="header">
+            Incident Information
+        </div>
+        <div id="IIC-L" title="IIC-Left" class="control-Leftcontainer">
+            dfdf
+        </div>
+        <div id="IIC-R" title="IIC-Right" class="control-Rightcontainer">
+            dfdf
+        </div>
+    </div>
+    <div id="IS" title="IncidentSeverity" class="container">
+        <div title="SeverityHeader" class="header">
+            Incident Severity
+        </div>
+        <div id="IS-L" title="IIC-Left" class="control-Leftcontainer">
+            dfdf
+        </div>
+        <div id="IS-R" title="IIC-Right" class="control-Rightcontainer">
+            dfdf
+        </div>
+    </div>
+     <div id="ID" title="IncidentDetails" class="container">
+        <div title="DetailsHeader" class="header">
+            Incident Details
+        </div>
+        <div id="ID-L" title="ID-Left" class="control-Leftcontainer">
+            dfdf
+        </div>
+        <div id="ID-R" title="ID-Right" class="control-Rightcontainer">
+            dfdf
+        </div>
+    </div>
+     <div id="IT" title="IncidentType" class="container">
+        <div title="TypeHeader" class="header">
+            Incident Type
+        </div>
+        <div id="IT-L" title="IT-Left" class="control-Leftcontainer">
+            dfdf
+        </div>
+        <div id="IT-R" title="IT-Right" class="control-Rightcontainer">
+            dfdf
+        </div>
+    </div>
+    
+    <br /><br />
+
+</asp:Content>

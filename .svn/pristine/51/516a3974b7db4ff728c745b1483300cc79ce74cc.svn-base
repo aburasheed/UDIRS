@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Data;
+using System.Collections;
+//using ClassLibrary.BusinessLayer.Entities;
+using System.Configuration;
+using UDIRS.Classes;
+using System.Web.UI.WebControls;
+using System.Text;
+using IAUHelper.Classes;
+
+namespace UDIRS.Web
+{
+    public partial class Userhistory : System.Web.UI.Page
+    {
+        DataView oDV = new DataView();
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                BindGridview();
+            }
+        }
+        protected void BindGridview()
+        {
+            /*
+            SqlConnection con = new SqlConnection("Data Source=SureshDasari;Integrated Security=true;Initial Catalog=MySampleDB");
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select * from UserDetails", con);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            con.Close();
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            gvHistory.DataSource = ds;
+            gvHistory.DataBind();
+             */
+
+
+            try
+            {
+                oDV = AdoUDIRS.GetIncidentHistory();
+
+                if (AdoUDIRS.BlnError)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count == 0)
+                {
+                    //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                    return;
+                }
+                else if (oDV.Count > 0)
+                {
+                    gvHistory.DataSource = oDV;
+                    gvHistory.DataBind();
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                //lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+            }
+
+
+
+
+
+        }
+    }
+}

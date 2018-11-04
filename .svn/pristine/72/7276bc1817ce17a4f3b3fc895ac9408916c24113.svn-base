@@ -1,0 +1,24 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Form.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="UDIRS.Web.WebForm1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Repeater ID="rptcat" runat="server">
+      <ItemTemplate>
+            <ul>
+               <li>
+                  <asp:CheckBox ID="main_cat" runat="server" type="checkbox" OnCheckedChanged="main_cat_CheckChanged" AutoPostBack="True" Text='<%# Eval("cat_name") %>' data-id='<%# Eval("cat_id") %>' />                                             
+               </li>        
+           </ul>
+      </ItemTemplate>
+</asp:Repeater>
+
+ <asp:Repeater ID="sub_cat" runat="server">
+      <ItemTemplate>
+            <ul>
+                <li>                             
+                  <input runat="server" id="subcheck" type="checkbox" class="icheck"  AutoPostBack="True" Text='<%# Eval("cat_name") %>' />                                       
+                </li>        
+            </ul>
+       </ItemTemplate>
+</asp:Repeater>
+</asp:Content>

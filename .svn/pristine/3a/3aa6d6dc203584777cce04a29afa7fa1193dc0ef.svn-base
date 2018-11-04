@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Web.SessionState;
+using UDIRS.Classes;
+
+
+namespace QSMS.Controls
+{
+	public partial class UCLogin : ControlBase
+	{
+		SqlConnection _oConn = new SqlConnection(ConfigurationManager.ConnectionStrings["DBConnection"].ToString());
+		DataSet _dSet = new DataSet();
+		SqlDataAdapter _dAdapter;
+		// _____________________________________________________________________________________________________
+
+		private void Page_Init(object sender, EventArgs e)
+		{
+			btnSubmit.Click += new EventHandler(btnSubmit_Click);
+
+		}
+
+		// _____________________________________________________________________________________________________
+
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			//this.Page.ClientScript.GetPostBackEventReference(this, "");
+			btnSubmit.Attributes.Add("onclick", "javascript:return DoSubmit();");
+		}
+
+		protected void btnSubmit_Click(object sender, EventArgs e)
+		{
+			CheckLogin();
+		}
+
+		protected void CheckLogin()
+		{
+			string pId = "";
+			lblMessage.Style.Add("color", "#ee0000");
+			lblMessage.Style.Add("font-size", "120%");
+			lblMessage.Visible = true;
+			//caLLSSS
+			//DataView oDV = AdoUDIAMS.caLLSSS();
+			DataView oDV = AdoUDIRS.DoLogin(txtUsername.Text.Trim(), txtPassword.Text.Trim());
+			lblMessage.Text = "";
+
+
+            if (AdoUDIRS.BlnError == true)
+			{
+                lblMessage.Text = "Error 67, sorry, an error occured, " + AdoUDIRS.StrError;
+				return;
+			}
+
+			else if (oDV.Count == 0)
+			{
+				lblMessage.Text = "Sorry, you entered wrong Username or password";
+				return;
+			}
+			else if (oDV.Count > 0)
+			{
+
+				pId = oDV[0]["PersonID"].ToString();
+				Session["PersonID"] = pId;
+				Session["Username"] = txtUsername.Text;
+				Session["Fullname"] = oDV[0]["FullName"].ToString();
+
+				Server.Transfer("~/Web/Evidence.aspx");
+
+			}
+
+		}
+
+	}
+}

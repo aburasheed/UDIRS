@@ -1,0 +1,540 @@
+﻿.btn
+{
+    background: #1f3a59;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    float: left;
+    margin-top: 180px;
+    margin-left: 145px;
+}
+
+.btn-other
+{
+    background: #1f3a59;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #ffffff;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    float: right;
+    margin-top: 180px;
+    margin-right: 220px;
+}
+
+.display_none
+{
+	display:none;
+}
+
+/*-------------------------- saleem Add for Registration ------------------------------------*/
+ .hiddencol
+  {
+    display: none;
+  }
+  
+.home-des-in {
+    background: rgba(47, 62, 95, 0.8);
+    width: 690px;
+    height: 690px;
+    float: right;
+    margin-right: 344px;
+}
+
+.home-Log-in {
+    background: rgba(47, 62, 95, 0.8);
+    width: 620px;
+    height: 459px;
+    float: right;
+    margin-right: 344px;
+    margin-top: 70px;
+}
+.page-home-in {
+    background: url(../Master/images/cover-home.jpg) center center no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    /* height: 200px; */
+    position: relative;
+    text-align: center;
+    color: #fff;
+}
+
+/*--------------------------saleem Add for menu 5 December------------------------------------*/
+#content{
+	margin: 35px 0px 40px 30px;
+	background: transparent;
+	padding: 20px;
+	clear: both;
+}
+
+.aerobuttonmenu{ /*container that holds a row of aero buttons*/
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: auto;
+background: #F7F7F7; /*menu strip background*/
+border: 1px solid gray;
+padding: 4px 0;
+border-width: 1px 0;
+}
+
+* html .aerobuttonmenu{ /*IE6 and below hack. Set explicit strip width*/
+width: 100%;
+}
+
+.aerobuttonmenu a.aero{ /*aero button CSS     D:\_DataFiles\Projects\UDIRS_Proj\UDIRS_Solution\UDIRS\Master*/
+background: transparent url('Images/aeroleft.gif')no-repeat top left; /*transparent url('~/Images/aeroleft.gif') no-repeat top left;*/
+display: block;
+float: left;
+font: bold 13px Verdana, Trebuchet MS; /* Change 13px as desired */
+line-height: 23px; /* This value + 8px should equal height of button background (default is 31px) */
+height: 31px; /* Height of button background height */
+padding-left: 10px; /* Width of left menu image */
+text-decoration: none;
+margin-right: 5px; /*spacing between buttons*/
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90); /*this and next two rules control opacity of buttons before hover*/
+opacity: 0.9;
+-moz-opacity: 0.9;
+}
+
+.aerobuttonmenu a.aero:link, .aerobuttonmenu a.aero:visited, .aerobuttonmenu a:active{
+color: white; /*button text color*/
+}
+
+.aerobuttonmenu a.aero span{
+background: url('Images/aeroright.gif') no-repeat top right;
+display: block;
+padding: 4px 10px 6px 0; /*Set 10px here to match value of 'padding-left' value above*/
+}
+
+.aerobuttonmenu a.aero:hover{ /* Hover state CSS */
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); /*this and next two rules control opacity of buttons during hover*/
+opacity: 1;
+-moz-opacity: 0.99;
+}
+
+.aerobuttonmenu a.aero:hover span{ /* Hover state CSS (for text) */
+color: #85baea;
+}
+
+.black a.aero{
+background-image: url('Images/aeroleftblack.gif');
+}
+
+.black a.aero span{
+background-image: url('Images/aerorightblack.gif');
+}
+
+.aerobuttonmenu .rightsection{
+float: right;
+width: 100px;
+position: relative;
+top: 3px;
+padding-right: 5px;
+text-align: right;
+}
+
+.aerobuttonmenu .rightsection a{
+color: navy;
+}
+
+/*--------------------------saleem Ended for menu 5 December------------------------------------*/
+
+.a:hover {
+  color: #00ff00 ;
+}
+
+
+.btn:hover
+{
+    background: #12294f;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #97792e;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-other:hover
+{
+    background: #12294f;
+    border-radius: 28px;
+    font-family: Georgia;
+    color: #97792e;
+    font-size: 25px;
+    padding: 6px 10px 6px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+span.img-dollar:before {
+    content: url(~/Master/Images/Home.png);
+}
+
+.txt-lbl
+{
+    color: rgb(84, 84, 84);
+    border-color: darkgrey;
+    border-style: solid;
+    background-color:transparent;
+    font-size: 16px;
+}
+
+.lbl-txt
+{
+    color:Black;
+    border-style:groove;
+    background-color: AliceBlue;
+    font-size: 14px; 
+}
+
+.content-main
+{
+    background-image: url("../Master/Images/IAU3.png");
+    height: 490px;
+    background-color: #ffffff;
+}
+
+.content-Othermain
+{
+    background-image: url("../Master/Images/cover-home.jpg");
+     height: 690px;
+    background-color: #ffffff;
+}
+
+.fieldset-login
+{
+    display: block;
+    float: right;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: #97792e;
+    border-radius: 28px;
+    border-image: initial;
+    margin-right: 132px;
+    margin-top: 74px;
+    font-family: "Courier New" ,Courier;
+    font-weight: bold;
+}
+
+.fieldset-registration
+{
+    display: block;
+    float: Left;
+    min-width: -webkit-min-content;
+    border-width: 2px;
+    border-style: groove;
+    border-color: #97792e;
+    border-radius: 28px;
+    border-image: initial;
+    margin-top: 42Px;
+    margin-left: 130px;
+    font-family: "Courier New" ,Courier;
+    font-weight: bold;
+}
+legend
+{
+    text-align: Left;
+    padding: 10px 10px 6px 10px;
+    font-weight: bold;
+    font-family: "Courier New" ,Courier;
+}
+.registration-cntrls
+{
+    width: 395px;
+    float: left;
+    text-align: left;
+    margin-top:26px;
+}
+.registration-cntrls span
+{
+    text-align: left;
+}
+.registration-cntrls input, .registration-cntrls select, .registration-cntrls table
+{
+    float:right;
+}
+
+div.container{
+      width: 100%;
+    background-color: #F8F8F8;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin-top: 5px;
+    
+}
+
+.shadowbox {
+  border: 1px solid #333;
+  box-shadow: 8px 8px 5px #444;
+  padding: 30px 35px;
+  background-image: linear-gradient(180deg, #fff, #ddd 40%, #ccc);
+}
+
+.divTable{
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+
+.divTableColum {
+	display: table-Column;
+	width: 255px; 
+	float: left; 
+	text-align: left; 
+	padding: 15px 10px; 
+	margin-bottom:15px; 
+	border: 0.4pt solid #999999;
+	border-style: dotted;
+}
+
+.divTable2ColumData {
+	display: table-Column;
+	width: 980px; 
+	float: left; 
+	text-align: left; 
+	padding: 15px 10px; 
+	margin-bottom:15px; 
+	border: 0.4pt solid #999999;
+	border-style: dotted;
+}
+
+.divTable2ColumRMO {
+	width: 980px; 
+	float: left; 
+	text-align: left; 
+	padding: 15px 10px; 
+	border: 0.4pt solid #999999; 
+	border-style: dotted; 
+	height:46px;
+	
+}
+
+.header
+{
+    margin-bottom: 5px;
+    background-color: #4f535d;
+    text-align: left;
+    width: 1340px;
+    color: #fff;
+    font-size: 23px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.SideHeader
+{
+    background-color: #C9C9C9;
+    width: 1350px;
+    float: left;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.control-Rightcontainercheckbox
+{
+    width: 1220px;
+    float: left;
+    text-align: left;
+    padding: 10px 0px 10px 15px;
+}
+
+
+.SideHeaderOthers
+{
+    /*z-index: 2;*/ 
+    position: relative;
+    margin-top: 10px;
+    background-color: #C9C9C9; 
+    width: 115px; 
+    height:120px; 
+    color: #3070AB; 
+    border: #9B7C2F 1px dashed;
+    float:left;
+}
+.vericaltext
+{
+    margin-top: 85px;
+    width:112px;
+    color: #000000; 
+    word-wrap: break-all;
+    font-family: monospace; /* this is just for good looks */
+    /*white-space:pre-wrap;*/
+    white-space: pre-line; 
+    font-size: 18px;
+    text-align:center;
+}
+
+.control-Leftcontainer
+{
+    width: 660px;
+    height: 250px;
+    /*background: red;*/
+    float: Left;
+    /*margin-top: 10px;*/
+    /*margin-left: 0px;*/
+    text-align:left;
+    padding: 15px 0px 0px 15px;
+}
+
+.control-Rightcontainer
+{
+    width: 660px;
+    height: 250px;
+    /*background: Green;*/
+    float: left;
+    /*margin-top: 10px;*/
+    /*margin-left: 0px;*/
+    text-align:left;
+    padding: 15px 0px 0px 15px;
+}
+
+.control-Btncontainer
+{
+   
+    float:right;
+    margin-right:133px;
+    padding: 8px 30px 5px 30px;
+    font-size: 18px;
+    color: #12294f;
+    font-family: Georgia;
+    background-color: #C9C9C9;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #3070ab;
+    cursor: pointer;
+}
+.control-Btncontainer:hover {
+    background: #12294f;
+    border: 1px solid #57d6c7;
+    font-family: Georgia;
+    color: #97792e;
+    text-decoration: none;
+    cursor: pointer;
+}
+    .controls-container input{    float: left;
+    margin-top: 12px;}
+     .controls-container span{float: left;
+    clear: left;
+    width: 195px;
+    margin-top: 14px;}
+    .label{float: left;
+    clear: left;
+    width: 195px;
+    margin-top: 8px;}
+    .controls{    float: left;
+    margin-top: 10px;height:24px;}
+nav {
+    float: left;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
+
+
+
+/*--------------------------saleem Add for menu 5 December------------------------------------*/
+#content{
+	margin: 40px 15px 70px 20px; /* 50px 50px 70px 50px;*/
+	background: transparent;
+	padding: 20px;
+	clear: both;
+}
+
+.aerobuttonmenu{ /*container that holds a row of aero buttons*/
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: auto;
+background: #F7F7F7; /*menu strip background*/
+border: 1px solid gray;
+padding: 4px 12px;
+border-width: 1px 0;
+}
+
+* html .aerobuttonmenu{ /*IE6 and below hack. Set explicit strip width*/
+width: 100%;
+}
+
+.aerobuttonmenu a.aero{ /*aero button CSS     D:\_DataFiles\Projects\UDIRS_Proj\UDIRS_Solution\UDIRS\Master*/
+background: transparent url('Images/aeroleft.gif')no-repeat top left; /*transparent url('~/Images/aeroleft.gif') no-repeat top left;*/
+display: block;
+float: left;
+font: bold 13px Verdana, Trebuchet MS; /* Change 13px as desired */
+line-height: 23px; /* This value + 8px should equal height of button background (default is 31px) */
+height: 31px; /* Height of button background height */
+padding-left: 10px; /* Width of left menu image */
+text-decoration: none;
+margin-right: 5px; /*spacing between buttons*/
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=90); /*this and next two rules control opacity of buttons before hover*/
+opacity: 0.9;
+-moz-opacity: 0.9;
+}
+
+.aerobuttonmenu a.aero:link, .aerobuttonmenu a.aero:visited, .aerobuttonmenu a:active{
+color: white; /*button text color*/
+}
+
+.aerobuttonmenu a.aero span{
+background: url('Images/aeroright.gif') no-repeat top right;
+display: block;
+padding: 4px 10px 6px 0; /*Set 10px here to match value of 'padding-left' value above*/
+}
+
+.aerobuttonmenu a.aero:hover{ /* Hover state CSS */
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); /*this and next two rules control opacity of buttons during hover*/
+opacity: 1;
+-moz-opacity: 0.99;
+}
+
+.aerobuttonmenu a.aero:hover span{ /* Hover state CSS (for text) */
+color: #85baea;
+}
+
+.black a.aero{
+background-image: url('Images/aeroleftblack.gif');
+}
+
+.black a.aero span{
+background-image: url('Images/aerorightblack.gif');
+}
+
+.aerobuttonmenu .rightsection{
+float: right;
+width: 100px;
+position: relative;
+top: 3px;
+padding-right: 5px;
+text-align: right;
+}
+
+.aerobuttonmenu .rightsection a{
+color: navy;
+}
+
+/*--------------------------saleem Ended for menu 5 December------------------------------------*/

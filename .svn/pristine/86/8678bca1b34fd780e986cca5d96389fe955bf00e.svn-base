@@ -1,0 +1,131 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Site.Master" AutoEventWireup="true"
+    CodeBehind="Login.aspx.cs" Inherits="UDIRS.Web.Login" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../Styles/BSite.css" rel="stylesheet" type="text/css" />
+    <link href="../Styles/BSite.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div title="Registration">
+        <fieldset title="Registration" style="width: 328px; height: 590px" class="fieldset-registration">
+            <legend>Registration</legend><span style="color: #315825; font-weight: bold">
+                <asp:Label ID="lblRMsg" runat="server" Text="" /></span>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblFirstname" runat="server" Text="FirstName:" />
+                <asp:TextBox ID="txtFirstname" Height="22px" runat="server" />
+                <asp:RequiredFieldValidator ID="rvFirstname" ErrorMessage="*" Style="color: Red;"
+                    ControlToValidate="txtFirstname" ValidationGroup="Registration" runat="server">
+                    
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblLastname" Text="LastName:" runat="server" />
+                <asp:TextBox ID="txtLastname" Height="22px" runat="server" />
+                <asp:RequiredFieldValidator ID="rvLastname" ErrorMessage="*" Style="color: Red;"
+                    ControlToValidate="txtLastname" ValidationGroup="Registration" runat="server">
+                    
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblGender" Text="Gender:" Style="text-align: left;" runat="server" />
+                <asp:RadioButtonList ID="rdoGender" RepeatDirection="Horizontal" runat="server">
+                    <asp:ListItem Text="Male" Value="M" />
+                    <asp:ListItem Text="Female" Value="F" />
+                </asp:RadioButtonList>
+                <asp:RequiredFieldValidator ID="rvGender" ErrorMessage="*" Style="color: Red;" ControlToValidate="rdoGender"
+                    ValidationGroup="Registration" runat="server">
+                    
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblIqama" Text="Nation ID:" runat="server" />
+                <asp:TextBox ID="txtIqama" Height="22px" MaxLength="10" runat="server" />
+                <asp:RequiredFieldValidator ID="rvIqama" ErrorMessage="*" Style="color: Red;" ControlToValidate="txtIqama"
+                    ValidationGroup="Registration" runat="server">                    
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblContact" Text="Contact_No.:" runat="server" />
+                <asp:TextBox ID="txtContact" Height="22px" MaxLength="10" runat="server" /><span
+                    id="spnPhoneStatus"></span>
+                <asp:RequiredFieldValidator ID="rvContact" ErrorMessage="*" Style="color: Red;" ControlToValidate="txtContact"
+                    ValidationGroup="Registration" runat="server">                    
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblEmail" Text="Email" runat="server" />
+                <asp:TextBox ID="txtEmailID" Height="22px" runat="server"> </asp:TextBox>
+                <asp:RequiredFieldValidator ID="rvEmail" ErrorMessage="*" Style="color: Red;" ControlToValidate="txtEmailID"
+                    ValidationGroup="Registration" runat="server">                    
+                </asp:RequiredFieldValidator>
+                <div> 
+                    <asp:RegularExpressionValidator ID="rv_validemail" ErrorMessage="Invalid Email" Style="color: Red;" ControlToValidate="txtEmailID" 
+	                    ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ValidationGroup="Registration" SetFocusOnError="True" runat="server"></asp:RegularExpressionValidator>
+                </div>
+                
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lblRpwd" Text="Password" runat="server" />
+                <asp:TextBox ID="txtRpwd" Height="22px" runat="server"> </asp:TextBox>
+                <asp:RequiredFieldValidator ID="rvRpwd" ErrorMessage="*" Style="color: Red;" ControlToValidate="txtRpwd"
+                    ValidationGroup="Registration" runat="server">                    
+                </asp:RequiredFieldValidator>
+            </div>
+            <div class="registration-cntrls">
+                <asp:Label ID="lvlRCpwd" Text="Confirm Password " runat="server" />
+                <asp:TextBox ID="txtRCpwd" Height="22px" runat="server"> </asp:TextBox>
+                <asp:RequiredFieldValidator ID="rvRCpwd" ErrorMessage="*" Style="color: Red;" ControlToValidate="txtRpwd"
+                    ValidationGroup="Registration" runat="server">                    
+                </asp:RequiredFieldValidator>
+                <asp:CompareValidator ID="CV_RCpwd" 
+                
+                ControlToCompare="txtRpwd" 
+
+                ControlToValidate="txtRCpwd" 
+                
+                Operator="Equal" ErrorMessage="Mismatch"
+                    ForeColor="Red" ValidationGroup="Registration"  SetFocusOnError="True" runat="server" ></asp:CompareValidator>
+            </div>
+            <div class="registration-cntrls">
+                <asp:Button ID="btnSubmit" Text="Submit" Style="margin-right: 115px;" ValidationGroup="Registration"
+                    runat="server" OnClick="btnSubmit_Click" />
+            </div>
+            <%--<asp:Label ID="lblRMsg" runat="server" Text="" />--%>
+        </fieldset>
+    </div>
+    <%--  Login --%>
+    <div title="Login">
+        <fieldset title="Login" class="fieldset-login" style="width: 320px; height: 270px">
+            <legend>Login</legend>
+            <div>
+                <br />
+                <asp:Label ID="Name" runat="server" Text="UserName:" />
+                <asp:TextBox ID="txtUserName" runat="server" Height="22px" />
+                <asp:RequiredFieldValidator ID="RV1" runat="server" ControlToValidate="txtUserName"
+                    ErrorMessage="Please enter your User Name" SetFocusOnError="True">*
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <br />
+            <div>
+                <asp:Label ID="lblPwd" runat="server" Text="Password:" />
+                <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Height="22px" />
+                <asp:RequiredFieldValidator ID="RV2" runat="server" ControlToValidate="txtPassword"
+                    ErrorMessage="Please enter your Password" SetFocusOnError="True">*
+                </asp:RequiredFieldValidator><br />
+            </div>
+            <br />
+            <div>
+                <asp:Button ID="btnLogIn" runat="server" Text="Sign In" />
+            </div>
+            <div>
+                <asp:HyperLink ID="hplForgot_PWD" runat="server" NavigateUrl="https://eservices.uod.edu.sa/reset-password/resetpassword.aspx">Forgot Password ?</asp:HyperLink>
+                <br />
+                <a>Registration for other then University Person</a>
+                <asp:HyperLink ID="New_Registration" runat="server" NavigateUrl="https://eservices.uod.edu.sa/reset-password/resetpassword.aspx">Registration</asp:HyperLink>
+            </div>
+            <br />
+            <br />
+            <asp:Label ID="lblMsg" runat="server" Text="" />
+        </fieldset>
+    </div>
+</asp:Content>

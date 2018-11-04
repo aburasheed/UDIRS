@@ -1,0 +1,24 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Form.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="UDIRS.Web.Home" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="../Styles/Site.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+<%--<div class="aerobuttonmenu black">
+
+<a href=" "class="aero"><span>Home</span></a> 
+<a href=" " class="aero"><span>Report Incident</span></a> 
+<a href=" " class="aero"><span>Analysis & Result</span></a> 
+<a href=" " class="aero"><span>About us</span></a>
+</div>--%>
+<div id="content" class="content">
+			<h1><p style="text-shadow:4px 4px 8px darkseagreen; letter-spacing:2px; font-size: 30pt; font-weight: bold;">Home</p></h1>
+			<p>
+				Welcome to Incident Reporting System! (UDIRS) will continue to be an important influence on improving safety.!
+			</p>
+			<p> 
+				This system assists analysts in providing timely handling of your incidents as well as the ability to conduct improved analysis. In order to report an incident kindly click on <a href="<%= Page.ResolveUrl("~/Web/Form.aspx") %>">Report Incident</a>. Please provide us as much information as you can to allow UDIRS to understand your incident. 
+			</p>
+		</div>
+</asp:Content>

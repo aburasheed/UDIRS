@@ -1,0 +1,117 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UCLogin.ascx.cs" Inherits="QSMS.Controls.UCLogin" %>
+
+<style type="text/css">
+
+BODY
+{
+	margin: 0px 0px 0px 0px;
+}
+	
+.login-form-container form
+{
+	width: 50px;
+	padding: 20px;
+	border: 0px solid #c0c0c0;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#d0d0d0', endColorstr='#ffffff'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#d0d0d0', endColorstr='#ffffff')"; /* IE8 */
+}
+	
+
+.UCLogin TABLE
+{
+	width: 35%;
+	padding: 10px;
+	border: 1px solid #c0c0c0;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#d0d0d0', endColorstr='#ffffff');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#d0d0d0', endColorstr='#ffffff')";
+}
+
+	
+</style>
+<div class="UCLogin" onkeypress="return WebForm_FireDefaultButton(event, '<%= btnSubmit.ClientID %>')">
+<br />
+<%--<asp:Literal Mode="PassThrough" Text="Key Performance Indicators" runat="server"></asp:Literal>--%>
+<%--<table cellpadding="5" cellspacing="0" style="width:320px; height: 120px; ">--%>
+<table cellpadding="0" cellspacing="0">
+	<tr>
+		<td>
+			<table style="width:100%;padding-top:30px;" >
+				<tr style="">
+					<td style="text-align:right;border:0px solid #0000aa;">Username:&nbsp;&nbsp;</td>
+					<td style="text-align:left;border:0px solid #0000aa;padding-top:7px;">
+						<asp:TextBox ID="txtUsername" runat="server" Text="u35996" Width="125px"></asp:TextBox>
+						<asp:RequiredFieldValidator ID="UserMark"
+							ErrorMessage="Please check username!" EnableClientScript="true" Text="*"
+							SetFocusOnError="true" ControlToValidate="txtUsername" runat="server"
+							ForeColor="#990000">*</asp:RequiredFieldValidator>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;border:0px solid #0000aa;vertical-align:middle;">Password:&nbsp;&nbsp;</td>
+					<td style="text-align:left;border:0px solid #0000aa;">
+						<asp:TextBox ID="txtPassword" runat="server" Text="father1" TextMode="SingleLine" Width="125px"></asp:TextBox>
+						<asp:RequiredFieldValidator ID="PasswordMark" 
+
+							ErrorMessage="Please check password!" EnableClientScript="true" Text="*" 
+							SetFocusOnError="true" ControlToValidate="txtPassword" runat="server" 
+							ForeColor="#990000">*</asp:RequiredFieldValidator>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<asp:ValidationSummary ID="ValidationSummary1" runat="server" 
+								ShowMessageBox="true" DisplayMode="BulletList" ShowSummary="false" ForeColor="#990000" />  
+							<asp:Label ID="lblMessage" Style="font:8pt verdana, arial" Visible="false"
+								runat="server" ForeColor="#990000" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center" style="padding-bottom:10px;">
+						<asp:Button ID="btnSubmit" Text="Log On" onclick="btnSubmit_Click" runat="server" ></asp:Button>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>	
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+
+
+	document.onkeypress = function( e )
+	{
+		e = e || window.event;
+		// use e.keyCode	
+		if ( e.keyCode == 13 ) {
+			//alert("keyCode: " + e.keyCode);
+			//DoSubmit();
+			$( document ).ready( function()
+			{
+				$( "#<%=btnSubmit.ClientID%>" ).trigger( 'click' );
+			}
+					);
+			$( "#<%=btnSubmit.ClientID%>" ).trigger( 'click' );
+		}
+	};
+
+	function DoSubmit()
+	{
+		//return true;
+		//__doPostBack("<%=btnSubmit.ClientID%>","OnClick");
+		//alert("Here DoSubmit:, length: " + document.forms.length
+		//							+ "\n id: " + document.forms[0].id
+		//							);
+		//$("#<%//=btnSubmit.ClientID%>").click();
+		//$("#<%//=btnSubmit.ClientID%>").trigger('click');
+
+
+
+		//alert("Here DoSubmit:, length: " + document.forms.length
+		//							+ "\n id: " + document.forms[0].id
+		//							);
+
+		//document.forms[0].submit();
+		return true;
+	}
+
+</script>

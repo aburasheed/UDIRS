@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace UDIRS.Web
+{
+    public partial class ThankYou : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //Session["Fullname"] = dSet.Tables[0].Rows[0]["Fullname"].ToString();
+            LoadSession();
+            lblMsg.Text = " Thank you for Report an Incident";
+            lblReference.Text = "Your Incident Reference number is:  ";
+            
+        }
+
+        protected void LoadSession()
+        {
+            string PersonId = Session["PersonID"].ToString();
+            string fullName = Session["Fullname"].ToString();
+            hdnPersonId.Value = PersonId;
+            lblName.Text = fullName;
+
+        }
+    }
+}

@@ -1,0 +1,298 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
+using System.Data;
+using System.Collections;
+using System.Net.Mail;
+using UDIRS.Classes;
+using UDIRS.Entities;
+using System.Text.RegularExpressions;
+namespace UDIRS.Web
+{
+	public partial class Login : System.Web.UI.Page
+	{
+		#region Properties
+		public string _QualityUser
+		{
+			get
+			{
+				return "quality";
+			}
+
+		}
+		public string _QualityPass
+		{
+			get
+			{
+				return "Quality2#$";
+			}
+
+		}
+		public string UserName
+		{
+			get
+			{
+				return (ViewState["UserName"] == null) ? string.Empty : ViewState["UserName"].ToString();
+			}
+			set { ViewState["UserName"] = value; }
+		}
+		public string Password
+		{
+			get
+			{
+				return (ViewState["Password"] == null) ? string.Empty : ViewState["Password"].ToString();
+			}
+			set { ViewState["Password"] = value; }
+		}
+		#endregion
+		#region Fields
+		nsWebServices.ldapSoapClient oLSC = new nsWebServices.ldapSoapClient();
+		#endregion
+		#region Events
+		protected void Page_Load(object sender, EventArgs e)
+		{
+
+		}
+		override protected void OnInit(EventArgs e)
+		{
+			base.OnInit(e);
+			btnLogIn.Click += new EventHandler(btnLogIn_Click);
+			btnSubmit.Click += new EventHandler(btnSubmit_Click);
+		}
+		protected void btnSubmit_Click(object sender, EventArgs e)
+		{
+            string Email = txtEmailID.Text.ToLower().Trim();
+            if ((Email.Contains("@iau.edu.sa") || Email.EndsWith("@uod.edu.sa")))
+            {
+                lblRMsg.Attributes.CssStyle.Add("float", "right");
+                lblRMsg.Text = "Sorry! University Email address can't be use.";
+                lblRMsg.ForeColor = System.Drawing.Color.Red;
+            }
+            else 
+            {
+                DataView oDV = new DataView();
+                oDV = AdoUDIRS.Regist(txtEmailID.Text.Trim(), txtRpwd.Text.Trim(), txtFirstname.Text.Trim(), txtLastname.Text.Trim(), txtIqama.Text.Trim(),
+                                     txtContact.Text.Trim(), txtEmailID.Text.Trim(), rdoGender.SelectedItem.Value, "");
+                //oDV = AdoRMIT.Regist("Visitor", "saleem.mas@gmail.com", "j789rt", "Saleem", "Abdul", "23326666",
+                //                      "05341039", "saleem.mas@gmail.com", "Male", "");
+                if (AdoUDIRS.BlnError)
+                {
+                    lblRMsg.Text = "Error 40, sorry, an error occured, " + AdoUDIRS.StrError;
+                }
+                lblRMsg.Text = oDV[0]["StatusMsg"].ToString();
+            }
+		}
+		protected void btnLogIn_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				UserName = txtUserName.Text.ToLower().Trim();
+				Password = txtPassword.Text.Trim();
+				if (UserName.Contains("@iau.edu.sa") || UserName.Contains("@uod.edu.sa") || !UserName.Contains('@'))
+				{
+					#region Active Directory Login
+					if (IsUserExist())
+					{
+						string FullName = string.Empty, Email = string.Empty, Phone = string.Empty, Mobile = string.Empty, NationalID = string.Empty;
+						nsWebServices.GetUser[] oArray;
+						oArray = GetUserDetails();
+						if (oArray != null)
+						{
+							if (oArray[0].ID != null && oArray[0].ID != string.Empty)
+							{
+								#region Person details from webservice
+								NationalID = oArray[0].ID;
+								if (oArray[0].FullName != null)
+									FullName = oArray[0].FullName;
+								if (oArray[0].Email != null)
+									Email = oArray[0].Email;
+								if (oArray[0].Phone != null)
+									Phone = oArray[0].Phone;
+								if (oArray[0].Mobile != null)
+									Mobile = oArray[0].Mobile;
+								#endregion
+								DataSet dSet = new DataSet();
+								dSet = AdoUDIRS.AddUpdateUserDetailsByNationalID(NationalID, FullName, Email, Phone, Mobile);
+								if (dSet != null)
+								{
+									if (dSet.Tables[0] != null)
+									{
+										if (dSet.Tables[0].Rows.Count > 0)
+											SetPersonDetails(dSet.Tables[0]);
+										else
+										{
+											//Person does not exist/Database error
+										}
+										#region Set PersonRoleDetails Entity
+										if (dSet.Tables[1] != null)
+										{
+											if (dSet.Tables[1].Rows.Count > 0)
+											{
+												SetPersonRoleDetails(dSet.Tables[1]);
+												Response.Redirect("~/Web/Home.aspx", true);
+											}
+										}
+										else
+										{
+											//PersonRoles does not exist/Database error
+										}
+										#endregion
+									}
+									else
+									{
+										//Person does not exist/Database error
+									}
+								}
+								else
+								{
+									//Person does not exist/Database error
+								}
+							}
+							else
+							{
+								//Message: Your NationalID not found, Please contact helpdesk@iau.edu.sa or 31111.
+							}
+						}
+						else
+						{
+							//Message: Server not responding, Please try after some time.
+						}
+					}
+					else
+					{
+						//Message: incorrect login credentials
+					}
+					#endregion
+
+				}
+				else //if (IsOtherLogin())
+				{
+					#region Other Login
+					DataSet dSet = new DataSet();
+					dSet = AdoUDIRS.CheckAndGetDataForOthersLogin(UserName);
+					if (dSet != null)
+					{
+						if (dSet.Tables[0] != null)
+						{
+							if (dSet.Tables[0].Rows.Count > 0)
+								SetPersonDetails(dSet.Tables[0]);
+							else
+							{
+								return;
+								//Person does not exist/Database error
+							}
+							#region Set PersonRoleDetails Entity
+							if (dSet.Tables[1] != null)
+							{
+								if (dSet.Tables[1].Rows.Count > 0)
+								{
+									SetPersonRoleDetails(dSet.Tables[1]);
+									Response.Redirect("~/Web/Home.aspx", true);
+								}
+							}
+							else
+							{
+								//PersonRoles does not exist/Database error
+							}
+							#endregion
+						}
+						else
+						{
+							//Incorrect Username/Password
+						}
+					}
+					else
+					{
+						//Incorrect Username/Password
+					}
+
+					#endregion
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
+		}
+		#endregion
+		#region Private Methods
+		private static void SetPersonRoleDetails(DataTable dTable)
+		{
+			IList<PersonRoles> PersonRolesList = new List<PersonRoles>();
+			foreach (DataRow row in dTable.Rows)
+				PersonRolesList.Add(new PersonRoles() { RolesID = Convert.ToInt32(row["RolesID"]), Shortname = row["Shortname"].ToString(), Longname = row["Longname"].ToString() });
+			UDIRSHelper.PersonRoleDetails = PersonRolesList;
+		}
+		private static void SetPersonDetails(DataTable dTable)
+		{
+			#region Set PersonDetails Entity
+			Person person = new Person();
+			if (dTable.Rows[0]["Id"] != null)
+				person.Id = Convert.ToInt64(dTable.Rows[0]["Id"]);
+			if (dTable.Rows[0]["Username"] != null)
+				person.Username = dTable.Rows[0]["Username"].ToString();
+			if (dTable.Rows[0]["Pwd"] != null)
+				person.Pwd = dTable.Rows[0]["Pwd"].ToString();
+			if (dTable.Rows[0]["Firstname"] != null)
+				person.Firstname = dTable.Rows[0]["Firstname"].ToString();
+			if (dTable.Rows[0]["Midname"] != null)
+				person.Midname = dTable.Rows[0]["Midname"].ToString();
+			if (dTable.Rows[0]["Lastname"] != null)
+				person.Lastname = dTable.Rows[0]["Lastname"].ToString();
+			if (dTable.Rows[0]["Fullname"] != null)
+				person.Fullname = dTable.Rows[0]["Fullname"].ToString();
+			if (dTable.Rows[0]["FirstnameAr"] != null)
+				person.FirstnameAr = dTable.Rows[0]["FirstnameAr"].ToString();
+			if (dTable.Rows[0]["MidnameAr"] != null)
+				person.MidnameAr = dTable.Rows[0]["MidnameAr"].ToString();
+			if (dTable.Rows[0]["LastnameAr"] != null)
+				person.LastnameAr = dTable.Rows[0]["LastnameAr"].ToString();
+			if (dTable.Rows[0]["FullnameAr"] != null)
+				person.FullnameAr = dTable.Rows[0]["FullnameAr"].ToString();
+			if (dTable.Rows[0]["Title"] != null)
+				person.Title = dTable.Rows[0]["Title"].ToString();
+			if (dTable.Rows[0]["JobTitle"] != null)
+				person.JobTitle = dTable.Rows[0]["JobTitle"].ToString();
+			if (dTable.Rows[0]["NationIqama"] != null)
+				person.NationIqama = dTable.Rows[0]["NationIqama"].ToString();
+			if (dTable.Rows[0]["ComputerNo"] != null)
+				person.ComputerNo = dTable.Rows[0]["ComputerNo"].ToString();
+			if (dTable.Rows[0]["WorkEmail"] != null)
+				person.WorkEmail = dTable.Rows[0]["WorkEmail"].ToString();
+			if (dTable.Rows[0]["PersonalEmail"] != null)
+				person.PersonalEmail = dTable.Rows[0]["PersonalEmail"].ToString();
+			if (dTable.Rows[0]["WorkPhone"] != null)
+				person.WorkPhone = dTable.Rows[0]["WorkPhone"].ToString();
+			if (dTable.Rows[0]["Mobile"] != null)
+				person.Mobile = dTable.Rows[0]["Mobile"].ToString();
+			if (dTable.Rows[0]["Gender"] != null)
+				person.Gender = dTable.Rows[0]["Gender"].ToString();
+			if (dTable.Rows[0]["RecStatus"] != null)
+				person.RecStatus = dTable.Rows[0]["RecStatus"].ToString();
+			if (dTable.Rows[0]["RecUser"] != null)
+				person.RecUser = dTable.Rows[0]["RecUser"].ToString();
+			if (dTable.Rows[0]["RecDate"] != null)
+				person.RecDate = Convert.ToDateTime(dTable.Rows[0]["RecDate"]);
+			UDIRSHelper.PersonDetails = person;
+			#endregion
+		}
+		//private bool IsOtherLogin()
+		//{
+		//    // Return true if UserName is in valid e-mail format.
+		//    return Regex.IsMatch(UserName, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+		//}
+		private bool IsUserExist()
+		{
+			return oLSC.UserValid(_QualityUser, _QualityPass, UserName, Password);
+		}
+		private nsWebServices.GetUser[] GetUserDetails()
+		{
+			return oLSC.GetUser_(_QualityUser, _QualityPass, UserName, true);
+		}
+		#endregion
+	}
+}

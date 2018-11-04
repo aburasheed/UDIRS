@@ -1,0 +1,28 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Form.Master" AutoEventWireup="true" CodeBehind="Userhistory.aspx.cs" Inherits="UDIRS.Web.Userhistory" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+<div id="dvGrid" style="margin-left: 330px; margin-top: 40px; margin-bottom: 520px;" runat="server">
+<asp:GridView ID="gvHistory" AutoGenerateColumns="False" BackColor="White"  
+BorderColor="#3366CC" BorderStyle="None" BorderWidth="1px" CellPadding="4" runat="server"> 
+<RowStyle BackColor="White" ForeColor="#33405F" />
+    <Columns>
+        <asp:TemplateField HeaderText="ReferenceID">
+            <ItemTemplate>
+                <a href='<%#"IncidentReported.aspx?ReferenceID="+DataBinder.Eval(Container.DataItem,"ReferenceID") %>'>
+                    <%#Eval("ReferenceID")%>
+                </a>
+            </ItemTemplate>
+        </asp:TemplateField>
+        <%--<asp:BoundField DataField="ReferenceID" HeaderText="ReferenceID" ReadOnly="True" />--%>
+        <asp:BoundField DataField="IncidentLocation" HeaderText="Incident Location" ReadOnly="True" />
+        <asp:BoundField DataField="DatedTime" HeaderText="Date/Time" ReadOnly="True" />
+        <asp:BoundField DataField="RecStatus" HeaderText="Status" ReadOnly="True" />
+    </Columns>
+    <FooterStyle BackColor="#99CCCC" ForeColor="#33405F" /> 
+    <PagerStyle BackColor="#99CCCC" ForeColor="#33405F" HorizontalAlign="Left" /> 
+    <SelectedRowStyle BackColor="#009999" Font-Bold="True" ForeColor="#E8FFB0" /> 
+    <HeaderStyle BackColor="#33405F" Font-Bold="True" ForeColor="#E8FFB0" /> 
+</asp:GridView> 
+</div>
+</asp:Content>
